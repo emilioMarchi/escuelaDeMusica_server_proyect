@@ -48,7 +48,7 @@ app.use(express.static(path.join(__dirname, 'build')))
 
 app.get('/', (req, res) => {
     res.send('holis')
-    res.sendFile(path.join(__dirname, 'build', 'index.html'))
+    res.sendFile(path.join(__dirname, 'escuelaDeMusica-server-proyect/build', 'index.html'))
 })
 // route middlewares
 app.use('/api/dashboard', verifyToken, dashboardRoutes);
