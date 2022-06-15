@@ -43,13 +43,13 @@ const verifyToken = require('./mdlw/validateToken');
 // routes
 app.use('/auth', authRoute)
 
+app.use('/api/dashboard', verifyToken, dashboardRoutes);
 
-// app.use(express.static(path.join(__dirname, 'build')))
+app.use(express.static(path.join(__dirname, 'escuelaDeMusica_server_proyect', 'build')))
 
 app.get('/', (req, res) => {
-    res.send(path.join(__dirname, 'build'))
+    res.sendFile(path.join(__dirname, 'escuelaDeMusica_server_proyect', 'build'))
 })
 // route middlewares
-app.use('/api/dashboard', verifyToken, dashboardRoutes);
 
 app.listen(port, () => console.log(`App is live on port ${port}!`))
