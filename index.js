@@ -44,10 +44,10 @@ const verifyToken = require('./mdlw/validateToken');
 app.use('/auth', authRoute)
 
 
-app.use(express.static(path.join(__dirname, 'build')))
+// app.use(express.static(path.join(__dirname, 'build')))
 
 app.get('/', (req, res) => {
-    res.send('holis')
+    res.send(path.join(__dirname, 'build'))
 })
 // route middlewares
 app.use('/api/dashboard', verifyToken, dashboardRoutes);
