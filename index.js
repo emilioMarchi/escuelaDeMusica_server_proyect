@@ -9,13 +9,14 @@ const cors = require('cors');
 
 const app = express()
 const port = process.env.PORT || 8080
-
+const root = path.join(__dirname, 'build')
+app.use(express.static(root))
 //
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
 let corsOptions = {
-    origin: 'http://localhost:3000', // Reemplazar con dominio
+    origin: 'https://escuelademusicabarrial.s3.amazonaws.com', // Reemplazar con dominio
     optionsSuccessStatus: 200,
 }
 app.use(cors(corsOptions));
@@ -45,10 +46,8 @@ app.use('/auth', authRoute)
 
 app.use('/api/dashboard', verifyToken, dashboardRoutes);
 
-app.use(express.static(path.join(__dirname, 'escuelaDeMusica_server_proyect', 'build')))
-
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'escuelaDeMusica_server_proyect', 'build'))
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'))    
 })
 // route middlewares
 
