@@ -8,7 +8,6 @@ const User = require('../models/user')
 
 //validation model
 const schemaRegister = Joi.object({
-    name: Joi.string().min(6).max(255).required(),
     email: Joi.string().min(6).max(255).required().email(),
     password: Joi.string().min(6).max(1024).required()
 })
@@ -55,12 +54,15 @@ const schemaLogin = Joi.object({
     email: Joi.string().min(6).max(255).required().email(),
     password: Joi.string().min(6).max(1024).required()
 })
+router.get('/login', (req,res)=>{
 
+    res.sendFile(require('path').join(__dirname, '../cpanel/index.html'))
+})
 router.post('/login', async (req, res) => {
-
+    console.log(req.body)
 
     //validations
-    const { error } = schemaLogin.validate(req.body);
+    const { error } = schemaLogin.validate(req.body.data);
     if (error) return res.status(400).json({ error: error.details[0].message })
     
     const user = await User.findOne({ email: req.body.email });
@@ -75,12 +77,15 @@ router.post('/login', async (req, res) => {
         email:user.email,
         id: user._id
     }, process.env.TOKEN_SECRET)
-    
-    res.header('auth-token', token).json({
+    res.header({
+        'auth-token': token
+    })
+    res.json({
         error: null,
         data: {token},
         msj:'User logged in'
     })
+    res.end()
 
 
     

@@ -6,17 +6,18 @@ require('dotenv').config()
 const cors = require('cors');
 
 
-
 const app = express()
 const port = process.env.PORT || 8080
 const root = path.join(__dirname, 'build')
 app.use(express.static(root))
+
+
 //
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
 let corsOptions = {
-    origin: 'https://escuelademusicabarrial.s3.amazonaws.com', // Reemplazar con dominio
+    origin: 'http://localhost:3000', // Reemplazar con dominio
     optionsSuccessStatus: 200,
 }
 app.use(cors(corsOptions));
@@ -38,6 +39,7 @@ connectDb()
 const authRoute = require('./routes/auth')
 const dashboardRoutes = require('./routes/dashboard');
 const verifyToken = require('./mdlw/validateToken');
+const paymentRoute = require('./routes/payment')
     
  
 
@@ -46,9 +48,7 @@ app.use('/auth', authRoute)
 
 app.use('/api/dashboard', verifyToken, dashboardRoutes);
 
-app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'))    
-})
+app.use('/', paymentRoute )
 // route middlewares
 
 app.listen(port, () => console.log(`App is live on port ${port}!`))
