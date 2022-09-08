@@ -5,23 +5,25 @@ class PaymentController {
 
     async getPaymentLink(req,res){
         try{
-            const payment = await this.subscriptionService.createPayment()
-            return res.json(payment)
+            const payment = await this.subscriptionService.createPayment(req)
+            return payment
         }
         catch(error){
-            res.status(500).json({error: true, msj:'error payment'})
+            return{error: true, msj:'error payment'}
         }
     }
 
-    async getSubscriptionLink(req,res){
-        try{
-            const subscription = await this.subscriptionService.createSubscription()
-            return res.json(subscription)
+    async getSubscriptionLink(req, res) {
+        try {
+          const subscription = await this.subscriptionService.createSubscription(req);
+    
+          return subscription
+        } catch (error) {
+          console.log(error);
+    
+          return { error: true, msg: "Failed to create subscription" };
         }
-        catch(error){
-            res.status(500).json({error: true, msj:'error subscription'})
-        }
-    }
+      }
 }
 
 module.exports=PaymentController

@@ -5,6 +5,7 @@ const PaymentServices = require('../services/paymentServices')
 
 const PaymentInstance = new PaymentController(new PaymentServices())
 
+let data
 router.get('/', (req, res)=>{
     return res.json(
         {
@@ -14,11 +15,15 @@ router.get('/', (req, res)=>{
     )
 })
 
-router.get('/payment', (req, res)=>{
-    PaymentInstance.getPaymentLink(req,res)
+router.post('/payment', async(req, res)=>{  
+    
+    res.send(await PaymentInstance.getPaymentLink(req.body))
+        
 })
-router.get('/subscription', (req, res)=>{
-    PaymentInstance.getSubscriptionLink(req,res)
+
+router.post('/subscription', async (req, res)=>{
+    res.send(await PaymentInstance.getSubscriptionLink(req.body,res))
+    
 })
 
 module.exports = router
