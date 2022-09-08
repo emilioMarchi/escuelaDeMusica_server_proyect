@@ -17,7 +17,7 @@ app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
 let corsOptions = {
-    origin: 'http://3.83.189.41', // Reemplazar con dominio
+    origin: ['http://3.83.189.41','http://ec2-3-83-189-41.compute-1.amazonaws.com'], // Reemplazar con dominio
     optionsSuccessStatus: 200,
 }
 app.use(cors(corsOptions));
