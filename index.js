@@ -17,7 +17,7 @@ app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
 let corsOptions = {
-    origin: ['http://3.83.189.41','http://ec2-3-83-189-41.compute-1.amazonaws.com'], // Reemplazar con dominio
+    origin: ['http://www.escuelademusicabarrial.ar','http://escuelademusicabarrial.ar','http://localhost:3000','http://3.83.189.41','http://ec2-3-83-189-41.compute-1.amazonaws.com'], // Reemplazar con dominio
     optionsSuccessStatus: 200,
 }
 app.use(cors(corsOptions));
@@ -25,21 +25,14 @@ app.use(cors(corsOptions));
 
 // Conexión a Base de datos
 
-const uri = `mongodb+srv://admin:${process.env.PASSWORD}@cluster0.1mh2ak2.mongodb.net/?retryWrites=true&w=majority`;
-const connectDb = async ()=>{ 
-    await mongoose.connect(uri,
-    { useNewUrlParser: true, useUnifiedTopology: true }
-)
-.then(() => console.log('Base de datos conectada'))
-.catch(e => console.log('error db:', e))
-}
-connectDb()
+
     
 //import routes
 const authRoute = require('./routes/auth')
 const dashboardRoutes = require('./routes/dashboard');
 const verifyToken = require('./mdlw/validateToken');
 const paymentRoute = require('./routes/payment')
+const formRoute = require('./routes/formContact')
     
  
 
@@ -49,6 +42,8 @@ app.use('/auth', authRoute)
 app.use('/api/dashboard', verifyToken, dashboardRoutes);
 
 app.use('/', paymentRoute )
+
+app.use('/', formRoute )
 // route middlewares
 
 app.listen(port, () => console.log(`App is live on port ${port}!`))
