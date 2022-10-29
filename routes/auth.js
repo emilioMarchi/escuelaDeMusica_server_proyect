@@ -2,7 +2,9 @@ const router = require('express').Router()
 const Joi = require('@hapi/joi');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-    
+
+const connectDb = require('../mongoConection')
+connectDb()
 //model
 const User = require('../models/user')
 
@@ -13,6 +15,8 @@ const schemaRegister = Joi.object({
 })
 
 router.post('/registrer', async (req, res) => {
+
+    console.log(req.body)
 
     // validate user
     const { error } = schemaRegister.validate(req.body)
@@ -54,13 +58,12 @@ const schemaLogin = Joi.object({
     email: Joi.string().min(6).max(255).required().email(),
     password: Joi.string().min(6).max(1024).required()
 })
-router.get('/login', (req,res)=>{
-
-    res.sendFile(require('path').join(__dirname, '../cpanel/index.html'))
+router.get('/', (req, res) => {
+    res.send('holis')
 })
 router.post('/login', async (req, res) => {
     console.log(req.body)
-
+    
     //validations
     const { error } = schemaLogin.validate(req.body.data);
     if (error) return res.status(400).json({ error: error.details[0].message })
